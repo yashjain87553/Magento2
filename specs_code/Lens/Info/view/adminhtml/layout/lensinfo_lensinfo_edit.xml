@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Lens\Info\Block\Adminhtml\Lensinfo\Edit" name="Lens_Info_lensinfo_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Lens\Info\Block\Adminhtml\Lensinfo\Edit\Tabs" name="Lens_Info_lensinfo_tabs">
+                <block class="Lens\Info\Block\Adminhtml\Lensinfo\Edit\Tab\Lensinfo" name="Lens_Info_lensinfo_edit_tab_lensinfo"/>
+
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">General</argument>
+                    <argument name="block" xsi:type="string">Lens_Info_lensinfo_edit_tab_lensinfo</argument>
+                </action> 
+            </block>
+        </referenceContainer>
+         </body>
+</page>

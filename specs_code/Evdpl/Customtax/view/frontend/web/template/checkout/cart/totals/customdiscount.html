@@ -1,0 +1,11 @@
+<!-- ko if: isDisplayedCustomdiscount() -->
+<table data-bind="foreach: getCustomDiscount()">
+<tr class="totals customdiscount excl">
+    <th class="mark" colspan="1" scope="row" data-bind="text: firstName"></th>
+    <td class="amount">
+        <span class="price" data-bind="text: lastName"></span>
+    </td>
+</tr>
+</table>
+
+<!-- /ko -->

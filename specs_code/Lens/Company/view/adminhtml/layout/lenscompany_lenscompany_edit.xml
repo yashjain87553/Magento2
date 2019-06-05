@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Lens\Company\Block\Adminhtml\Lenscompany\Edit" name="Lens_Company_lenscompany_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Lens\Company\Block\Adminhtml\Lenscompany\Edit\Tabs" name="Lens_Company_lenscompany_tabs">
+                <block class="Lens\Company\Block\Adminhtml\Lenscompany\Edit\Tab\Lenscompany" name="Lens_Company_lenscompany_edit_tab_lenscompany"/>
+
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">General</argument>
+                    <argument name="block" xsi:type="string">Lens_Company_lenscompany_edit_tab_lenscompany</argument>
+                </action> 
+            </block>
+        </referenceContainer>
+         </body>
+</page>

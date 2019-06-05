@@ -1,0 +1,194 @@
+<style>
+#lens-select-id{
+  margin-left:10vw;
+  margin-right:10vw;
+  width:80vh;
+
+}
+.lens-modal-content{
+  width:80vw !important;
+}
+.item{
+  text-align:center;
+}
+</style>
+<?php
+
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+    $base_url=$storeManager->getStore()->getBaseUrl();
+    ?>
+<div class="container">
+  <input type="hidden" name="m_url" id="m_url" value="<?php echo $base_url;?>">
+  
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog" id="lens-select-id">
+      <div class="modal-content lens-modal-content" >
+        <div class="modal-header">
+          <h4 class="modal-title">Modal Header</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          
+        </div>
+        <div class="modal-body lens-select">
+        <div class="row">
+          <div class="col-sm-12 col-md-4 col-lg-4">
+          <div class="form-group">
+      <label for="select_len_company">Select Lens Company</label>
+      <select class="form-control" id="select_len_company">
+       <option value="0">Select</option>
+<?php  $collection=$this->getCompanycollection();
+        foreach ($collection as $data)
+       {
+    ?>
+          <option value="<?php echo $data->getLenscompanyId();?>"><?php echo $data->getCompanyName();?></option>
+      <?php }
+       ?>
+      </select>
+    </div>
+  </div>
+  </div>
+    <div class="lens_data">
+    </div>
+</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+
+<script>
+    require(['jquery', 'jquery/ui','c-owl-crousel'], function($){ 
+    $( document ).ready(function() {
+        var baseurl=$("#m_url").val();
+        var lens_company_id = $("#select_len_company").val();
+
+         $.ajax({
+                url : baseurl+'helloworld/index/lens',
+                type : 'POST',
+                dataType: 'json',
+                data: {
+                    lens_company_id:lens_company_id
+                },
+                success : function(data) {       
+                    $(".lens_data").html(data['lens_data']);    
+                    var owl = $('.owl-carousel');
+      owl.owlCarousel({
+        loop: true,
+        autoplay:true,
+        nav:true,
+        margin:0,
+        responsive: {
+          0:{
+            items:1
+          },
+          300: {
+            items: 1
+          },
+          600: {
+            items: 2
+          },
+          1000: {
+            items: 3
+          },
+          1300: {
+            items:3
+          }
+        }
+      });       
+                },
+                error : function(request,error)
+                {
+                    alert("Error");
+                }
+            }); 
+
+          $( "#select_len_company" ).change(function() {
+            $(".lens_data").html(); 
+            var lens_company_id= $("#select_len_company").val();
+            $.ajax({
+                url : baseurl+'helloworld/index/lens',
+                type : 'POST',
+                dataType: 'json',
+                data: {
+                    lens_company_id:lens_company_id
+                },
+                success : function(data) { 
+                    
+                    $(".lens_data").html(data['lens_data']);    
+                    var owl = $('.owl-carousel');
+      owl.owlCarousel({
+        loop: true,
+        autoplay:true,
+        nav:true,
+        margin:0,
+        responsive: {
+          0:{
+            items:1
+          },
+          300: {
+            items: 1
+          },
+          600: {
+            items: 2
+          },
+          1000: {
+            items: 3
+          },
+          1300: {
+            items:3
+          }
+        }
+      });       
+                },
+                error : function(request,error)
+                {
+                    alert("Error");
+                }
+            });
+
+          });
+});
+    });
+
+
+    require(['jquery', 'jquery/ui'], function($){ 
+      $( document ).ready(function() {
+           $(".lens_data").on("click",".add_to_cart", function(){
+            var baseurl=$("#m_url").val();
+            alert(baseurl);
+           var lens_info_class="id_"+$(this).val();
+           var lens_info_class_name="name_"+$(this).val();
+           var lens_info_cost_class="cost_"+$(this).val();
+           var lens_info_id=$("."+lens_info_class).val();
+           var lens_info_cost=$("."+lens_info_cost_class).val();
+           var lens_info_name=$("."+lens_info_class_name).val();
+            $.ajax({
+                url : baseurl+'helloworld/index/addlens',
+                type : 'POST',
+                dataType: 'json',
+                data: {
+                    lens_info_id:lens_info_id,
+                    lens_info_cost:lens_info_cost,
+                    lens_info_name:lens_info_name
+
+                },
+                success : function(data) {       
+                    alert(data['data']);
+           
+                },
+                error : function(request,error)
+                {
+                    alert("Error");
+                }
+            }); 
+           
+});
+      });
+    });
+    </script>

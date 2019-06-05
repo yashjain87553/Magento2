@@ -1,0 +1,215 @@
+<style>
+  ul,li{
+    list-style-type:none;
+    margin:0;
+    padding:0;
+}
+a{
+    margin:0;
+    padding:0;
+    text-decoration:none;
+    color:black;
+}
+ul > li, ol > li {
+
+    margin-top: 0rem;
+    margin-bottom: 0;
+
+}
+.c-open{
+        display:none;
+        
+    }
+    .c-close{
+        display:none;
+    }
+.c-container{
+     position:relative;
+     margin-top:7px;
+     z-index:3;
+     max-width:1600px;
+}
+.main-menu{
+    margin-left:1vw;
+}
+.main-menu>li{
+   float:left;
+   width:10%;
+   height:37px;
+   padding:10px 16px;
+   background-color:grey;
+   text-align:center;
+   border-radius: 4%;
+   margin-left:2px;
+}
+.sub-menu{
+    position:absolute;
+    top:37px;
+    left:1vw;
+    display:none;
+    background-color:pink;
+    width:98vw;
+    transition:0.5s linear ;
+    
+}
+.sub-menu>li{
+     text-align:center;
+     width:10%;
+     float:left;
+     display:block;
+     height:100px;
+     min-width:150px;
+
+}
+.main-menu>li:hover{
+    background-color: #dee0e2;
+}
+.main-menu>li:hover .sub-menu{
+     display:block;
+}
+.sub-menu-2{
+    display:none;
+    position:absolute;
+    top:100%;
+    width:10%;
+}
+.sub-menu-2>li{
+    text-align:center;
+     display:block;
+     padding:10px 16px;
+     background-color:orange;
+     min-width:120px;
+    
+}
+.sub-menu-2>li:hover{
+    background-color:#9ca39b;
+}
+.sub-menu>li:hover{
+    background-color:#eff2f4;
+}
+.sub-menu>li:hover .sub-menu-2{
+   display:block;
+}
+
+   
+  
+   @media only screen and (max-width: 764px) {
+    .c-open{
+        margin-top:-20px;
+        display:block;
+        font-size:30px;cursor:pointer;
+    }
+    a{
+        font-size:25px;
+    }
+    .c-container {
+    height: 85vh;
+    width: 0px;
+    position: fixed;
+    z-index: 3;
+    top: 15vh;
+    left: -50px;
+    background-color: lightblue;
+    overflow-x: hidden;
+    transition:0.5s;
+    margin-top:0;
+}
+.main-menu>li:first-child{
+     margin-top:22%;
+
+}
+.main-menu>li:not(first-child){
+     margin-top:2px;
+}
+   .main-menu>li{
+   float:none;
+   width:auto;
+   height:auto;
+   border-radius: 0%;
+   margin-left:0px;
+   border-radius:4px;
+   padding:0;
+}
+.sub-menu{
+    position:static;
+    width:auto;
+    
+}
+.sub-menu>li{
+     text-align:center;
+     width:auto;
+     float:none;
+     display:block;
+     height:auto;
+     min-width:120px;
+
+}
+
+.sub-menu-2{
+    position:static;
+    width:auto;
+}
+   .c-close{
+        display:block;
+        float:right;
+        margin-top:-7px;
+        margin-right:3px;
+        font-size:40px;
+        color:white;
+        font-size:30px;
+        cursor:pointer;
+    }
+}
+</style>
+<span  class="c-open">&#9776; open</span>
+<div class="c-container">
+    <span  class="c-close">&times;</span>
+<?php
+$categoriesLevel0 = $this->getRootCategories();?>
+
+<?php if($categoriesLevel0) {
+    echo "<ul class='main-menu'>";
+
+    foreach ($categoriesLevel0 as $categoryLevel0) {
+?>
+        <li class="main-li"><a href="<?php echo $this->getCategoryUrl($categoryLevel0); ?>"
+               class="menu-heading"><?php echo $categoryLevel0->getName(); ?></a>
+
+        <?php
+        $categoriesLevel1 = $this->getSubCategories($categoryLevel0);
+
+        if ($categoriesLevel1) {
+
+            echo "<ul class='sub-menu'>";
+
+            foreach ($categoriesLevel1 as $subCategoryLevel1) {
+
+                echo "<li class='sub-li'><a href='" . $this->getCategoryUrl($subCategoryLevel1) . "'>" . $subCategoryLevel1->getName() . "</a>";
+
+                $categoriesLevel2 = $this->getSubCategories($subCategoryLevel1);
+
+                if ($categoriesLevel2) {
+
+                    echo "<ul class='sub-menu-2'>";
+
+                    foreach ($categoriesLevel2 as $subCategoryLevel2) {
+                        echo "<li class='sub2-li'><a href='" . $this->getCategoryUrl($subCategoryLevel2) . "'>" . $subCategoryLevel2->getName() . "</a></li>";
+                    }
+
+                    echo "</ul>";
+                }
+
+                echo "</li>";
+            }
+
+            echo "</ul>";
+        }
+
+        echo "</li>";
+    }
+
+    echo "</ul>";
+}
+?>
+</div>
+

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <virtualType name="LensCompanyGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+     <virtualType name="LensCompanyGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Lens\Company\Model\ResourceModel\Companylens\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">LensCompanyGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Lens\Company\Model\ResourceModel\Companylens\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">lens_company</argument>
+            <argument name="resourceModel" xsi:type="string">Lens\Company\Model\ResourceModel\Companylens</argument>
+        </arguments>
+</virtualType>
+ <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="Lens_Company_lenscompany_listing_data_source" xsi:type="string">Lens\Company\Model\ResourceModel\Companylens\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

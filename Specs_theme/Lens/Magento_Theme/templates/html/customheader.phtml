@@ -1,0 +1,75 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+$baseUrl = $this->getBaseUrl();
+//$customerSession = $objectManager->get('Magento\Customer\Model\Session');
+$loginUrl = $storeManager->getStore()->getUrl('customer/account/login');
+$logoutUrl = $storeManager->getStore()->getUrl('customer/account/logout');
+$registerUrl = $storeManager->getStore()->getUrl('customer/account/create');
+$accountUrl = $storeManager->getStore()->getUrl('customer/account');
+$addressBookUrl = $baseUrl . 'customer/address';
+$ordersUrl = $baseUrl . 'sales/order/history';
+$reviewsUrl = $baseUrl . 'review/customer';
+$blockObj = $objectManager->get('Magento\Customer\Model\Session');
+$customer_Id = $blockObj->getCustomerId();
+$customerObj = $objectManager->create('Magento\Customer\Model\Customer')
+        ->load($customer_Id);
+$customerName = $customerObj->getFirstname();
+?>
+<div id="custom-header-id" class="header">
+  
+    <div class="my-logo">  
+      <?php echo $this->getChildHtml("logo"); ?>
+    </div>
+    <div class="custom-search" >
+    <?php echo $this->getChildHtml("topSearch"); ?>
+    </div>
+     <div class="custom-top-right">
+     <div class="custom-my-account">
+        <div class="inner-account-section">
+          <?php
+    if (isset($customer_Id) && $customer_Id != 0) {
+        ?>
+    <span>Hi, <?php echo $customerName; ?></span><i class="fa fa-user" style="color:grey;"></i>
+  <div class="dropdown-content">
+    <a href="<?php echo $accountUrl; ?>">Account</a>
+   <a href="<?php echo $addressBookUrl; ?>">Address Book</a>
+   <a href="<?php echo $ordersUrl; ?>">Orders</a>
+   <a href="<?php echo $reviewsUrl; ?>">Product Reviews</a>
+   <a href="<?php echo $this->getUrl('wishlist'); ?>">Wish List</a>                    
+   <a href="<?php echo $logoutUrl; ?>">Sign Out</a>
+  </div>
+  <?php }
+   else {
+  ?>
+  <span>My Account</span><i class="fa fa-user" style="color:grey;"></i>
+  <div class="dropdown-content">
+    <?php
+      $url = $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
+      $login_url = $block->getUrl('customer/account/login', array('referer' => base64_encode($url)));
+      ?>
+      <a href="<?php echo $login_url; ?>">Sign In</a>
+      <a href="<?php echo $registerUrl; ?>">Register</a>
+  </div>
+<?php } ?>
+</div>
+ </div>
+     <div class="custom-my-cart">
+     <?php echo $this->getChildHtml("minicart"); ?>
+    </div>
+    <div class="custom-my-wishlist">
+     <?php echo $this->getChildHtml("wish-list-link"); ?>
+    </div>
+    </div>
+</div>
+<script type="text/javascript">
+    require(['jquery'], function($) {
+     // re-attach to global scope
+    require(['c-bootstrap','c-custom'], function() {
+        $(function() {
+            // This function is needed (even if empty) to force RequireJS to load Twitter Bootstrap and its Data API.
+            // You can make calls to bootstrap functions here.
+        });
+    });
+});
+</script>
